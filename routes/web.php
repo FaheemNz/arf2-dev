@@ -62,3 +62,17 @@ Route::get('/verify/{token}', [SuccessController::class, 'index'])->middleware('
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Route::get('/test', function(){
+    $tablets = [];
+    
+    foreach( range(1, 1000) as $i ){
+        $tablets[] = [
+            'asset_code' => 'ABC' . $i,
+            'asset_brand' => 'ABC'.$i,
+            'status' => 'Active'
+        ];    
+    }
+    
+    \DB::table('tablets')->insert($tablets);
+});

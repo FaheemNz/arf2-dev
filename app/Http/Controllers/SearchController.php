@@ -46,7 +46,7 @@ class SearchController extends Controller
                 ->whereNull('arf_form_id')
                 ->where('status', 'Active')
                 ->select('id', DB::raw('asset_code AS text'))
-                ->paginate(100);
+                ->paginate(1000);
         
         $table = rtrim($table, 's');
         
