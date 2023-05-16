@@ -42,9 +42,11 @@ class SearchController extends Controller
             ]);
         }
         
-        $result = DB::select("SELECT asset_code, asset_brand FROM $table 
-                              WHERE arf_form_id IS NULL
-                              AND status = 'Active'");
+        $result = DB::table($table)
+                ->whereNull('arf_form_id')
+                ->where('status', 'Active')
+                ->select('id', DB::raw('asset_code AS text'))
+                ->paginate(100);
         
         $table = rtrim($table, 's');
         

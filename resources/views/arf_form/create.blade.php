@@ -369,10 +369,11 @@
         </div>
         <div class="modal-body">
           <form action="">
-            <select onchange="fillAssetDetails()" name="asset_code_ajax" id="asset_code_ajax" class="form-select form-select-sm" aria-label="Default" required></select>
+            <select name="asset_code_ajax" id="asset_code_ajax"></select>
             <input type="hidden" id="table" />
-            <br />
+            <br /><br />
             <div class="text-right d-flex justify-content-end">
+                <button type="button" class="btn btn-success mx-1" onclick="fillAssetDetails()">Insert</button>
                 <button type="button" class="btn btn-primary" onclick="window.location.reload()">Refresh</button>
             </div>
           </form>

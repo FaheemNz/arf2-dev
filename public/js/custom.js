@@ -133,13 +133,15 @@ function searchModalTrigger(tableName, assetCode, assetBrand) {
         },
         success: function (response) {
            if(response.success == true){
-                assetTypeAjax.append(`<option value="">Select</option>`);
-
-                response.data.forEach(asset => {
-                    assetTypeAjax.append(`<option data-brand="${asset.asset_brand}" data-table="${response.type}" value="${asset.asset_code}">${asset.asset_code}</option>`)
+                let dataFromAjax = response.data.data;
+                
+                assetTypeAjax.select2({
+                    placeholder: "Select Asset",
+                    dropdownParent: $('#asset-search-modal'),
+                    width: "470px",
+                    data: response.data.data
                 });
            } else {
-                assetTypeAjax.append(`<option value="">No Asset Found</option>`);
                 alert("No Asset is Available");
            }
         },
@@ -154,28 +156,20 @@ function searchModalTrigger(tableName, assetCode, assetBrand) {
 }
 
 function fillAssetDetails(){
-    let fromAjaxAsset = $("#asset_code_ajax");
+    let fromAjaxAsset = $("#asset_code_ajax").select2("data"),
+        table = $('#table').val();
 
-    if(!fromAjaxAsset.val()){
+    if(!fromAjaxAsset){
         alert("Please select a valid asset");
         
         return;
     }
-
-    let theCode = fromAjaxAsset.val(),
-        theBrand = $("#asset_code_ajax option:selected").attr("data-brand"),
-        table = $("#asset_code_ajax option:selected").attr("data-table");
-
-    console.log(theCode, theBrand, table);
     
-    if(!theCode || !theBrand || !table){
-        alert("Some Error Occured");
-
-        return;
-    }
-
+    let theCode = fromAjaxAsset[0].text
+    
+    table = table.slice(0, -1);
+    
     $("#arf_" + table + "_asset_code").val( theCode );
-    $("#arf_" + table + "_brand").val( theBrand );
 
     modal.hide();
 }
